@@ -7,6 +7,8 @@
 			height: "30", //默认canvas高度
 			type: "blend", //图形验证码默认类型blend:数字字母混合类型、number:纯数字、letter:纯字母
 			code: ""
+			//准备加入其他参数
+			//表示验证码类型 数字字母混合 计算
 		}
 		
 		if(Object.prototype.toString.call(options) == "[object Object]"){//判断传入参数类型
