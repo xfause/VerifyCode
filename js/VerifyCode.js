@@ -18,10 +18,10 @@
 			this.options.id = options;
 		}
 		
-		this.options.numArr = "0,1,2,3,4,5,6,7,8,9".split(",");
+		/** this.options.numArr = "0,1,2,3,4,5,6,7,8,9".split(","); **/
 		this.options.equationNum = "-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9".split(",");
-		this.options.equationOper = "+,-,*".split(",");
-		this.options.letterArr = getAllLetter();
+		/** this.options.equationOper = "+,-,*".split(","); **/
+		/** this.options.letterArr = getAllLetter(); **/
 
 		this._init();
 		this.refresh();
@@ -64,12 +64,13 @@
 			ctx.fillStyle = randomColor(180, 240);
 			ctx.fillRect(0, 0, this.options.width, this.options.height);
 
-			if (this.options.type == "blend") { //判断验证码类型
+			//判断验证码类型
+			if (this.options.type == "blend") { 
 				var txtArr = getBlend();
 			} else if (this.options.type == "number") {
 				var txtArr = getNumber();
 			} else if (this.options.type=="letter") {
-				var txtArr = getLetter().split(",");
+				var txtArr = getLetter();
 			} else if (this.options.type="equation") {
 				var txtArr = getEquation().split(",");
 			}
@@ -83,7 +84,7 @@
 				ctx.shadowOffsetY = randomNum(-3, 3);
 				ctx.shadowBlur = randomNum(-3, 3);
 				ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
-				var x = this.options.width / 5 * i;
+				var x = 25 + this.options.width / 5 * i;
 				var y = this.options.height / 2;
 				var deg = randomNum(-30, 30);
 				/**设置旋转角度和坐标原点**/
@@ -152,7 +153,35 @@
 	}
 	/** 生成随机字符串 **/
 	function getLetter(){
-		for (int i=1)
+		var letArr = new Array();
+		var letterArr = getAllLetter();
+		for (var i=0; i < 4; i ++){
+			letArr[i]=letterArr[randomNum(0,letterArr.length)];
+		}
+		return letArr; 
+	}
+	/** 生成随机数字串 **/
+	function getNumber(){
+		var numArr = new Array();
+		for (var i = 0; i < 4; i ++){
+			numArr[i] = randomNum(0,9);
+		}
+		return numArr;
+	}
+	/** 生成随机混合串 **/
+	function getBlend(){
+		var blendArr = new Array();
+		var letterArr = getAllLetter();
+		for (var i=0;i<4;i++){
+			var flag = randomNum(0,2);
+			if (flag==0){
+				blendArr[i]=randomNum(0,9);
+			}
+			else {
+				blendArr[i]=letterArr[randomNum(0,letterArr.length)];
+			}
+		}
+		return blendArr;
 	}
 	window.GVerify = GVerify;
 })(window, document);
