@@ -2,7 +2,7 @@
 	function GVerify(options) { //创建一个图形验证码对象，接收options对象为参数
 		this.options = { //默认options参数值
 			id: "", //容器Id
-			type: "", //图形验证码默认类型blend:数字字母混合类型、number:纯数字、letter:纯字母
+			type: "", //图形验证码类型 blend:数字字母混合类型、number:纯数字、letter:纯字母、equation算式
 			canvasId: "verifyCanvas", //canvas的ID
 			width: "100", //默认canvas宽度
 			height: "30", //默认canvas高度
@@ -19,9 +19,10 @@
 		}
 		
 		/** this.options.numArr = "0,1,2,3,4,5,6,7,8,9".split(","); **/
-		this.options.equationNum = "-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9".split(",");
 		/** this.options.equationOper = "+,-,*".split(","); **/
 		/** this.options.letterArr = getAllLetter(); **/
+		this.options.equationNum = "-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9".split(",");
+		this.options.Equ = "";
 
 		this._init();
 		this.refresh();
@@ -78,6 +79,7 @@
 			for(var i = 0; i < 4; i++) {
 				var txt = txtArr[i];
 				this.options.code += txt;
+				this.options.Equ += txt+","
 				ctx.font = randomNum(this.options.height/2, this.options.height) + 'px SimHei'; //随机生成字体大小
 				ctx.fillStyle = randomColor(50, 160); //随机生成字体颜色		
 				ctx.shadowOffsetX = randomNum(-3, 3);
@@ -116,13 +118,41 @@
 		validate: function(code){
 			var code = code.toLowerCase();
 			var v_code = this.options.code.toLowerCase();
-			console.log(v_code);
+			/** console.log(v_code); **/
 			if(code == v_code){
 				return true;
 			}else{
 				this.refresh();
 				return false;
 			}
+		},
+
+		/** 生成算式答案 **/
+		validate4Equation: function(code){
+			var txtArr = this.options.Equ.split(",");
+			var num1 = parseInt(txtArr[0]);
+			var num2 = parseInt(txtArr[2]);
+			var op = txtArr[1];
+			var ans=0;
+			if (op=="+") {
+				ans = num1+num2;
+			}else if (op == "-"){
+				ans = num1-num2;
+			}else if (op == "*"){
+				ans = num1*num2;
+			}
+			this.options.Equ = "";
+			if (ans==code) {
+				return true;
+			}
+			else {
+				this.refresh();
+				return false;
+			}
+		},
+		/** 返回验证码类型 **/
+		returnType: function(){
+			return this.options.type;
 		}
 	}
 	/**生成字母数组**/
@@ -183,5 +213,6 @@
 		}
 		return blendArr;
 	}
+
 	window.GVerify = GVerify;
 })(window, document);

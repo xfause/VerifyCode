@@ -10,13 +10,26 @@
 	</body>
 	<script src="js/VerifyCode.js"></script>
 	<script>
-		var verifyCode = new GVerify({id:"v_container",type:"equation"});
+		var verifyCode = new GVerify({id:"v_container",type:"blend"});
 		document.getElementById("my_button").onclick = function(){
-			var res = verifyCode.validate(document.getElementById("code_input").value);
-			if(res){
-				alert("验证正确");
-			}else{
-				alert("验证码错误");
+			// var res = verifyCode.validate(document.getElementById("code_input").value);
+			
+			var typee = verifyCode.returnType();
+			if (typee == "equation"){
+				var test = verifyCode.validate4Equation(document.getElementById("code_input").value);
+				if(test){
+					alert("验证正确");
+				}else{
+					alert("验证码错误");
+				}
+			}
+			else {
+				var res = verifyCode.validate(document.getElementById("code_input").value);
+				if (res) {
+					alert("验证正确");
+				}else {
+					alert("验证码错误");
+				}
 			}
 		}
 	</script>
