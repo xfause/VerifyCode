@@ -8,4 +8,14 @@
 
 创建div容器时自定义需要的类型即可。
 
-//P.S:算式类型验证码验证结果是算式计算的结果。
+P.S:算式类型验证码验证结果是算式计算的结果。
+
+    使用equation类型验证码时 html页面中的js代码中的验证部分
+
+    “var res = verifyCode.validate(document.getElementById("code_input").value);”
+
+    改为
+
+    “var res = verifyCode.validate4Equation(document.getElementById("code_input").value);”
+
+    使用validate4Equation计算算式结果。
